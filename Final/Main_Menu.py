@@ -11,7 +11,7 @@ def menu ():
         choice = input("What would you like to do?: ")
 
         if choice == "1":
-            add_user()
+            add_user(input("Enter username: "))
             while True:
                 input("Enter a username: ")
                     if:
