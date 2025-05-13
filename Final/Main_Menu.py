@@ -13,12 +13,12 @@ def menu ():
         choice = input("What would you like to do?: ")
 
         if choice == "1":
-            add_user(input("Enter username: "), input("Enter password: "),input("Enter email: "))
+            print(add_user(input("Enter username: "), input("Enter password: "),input("Enter email: ")))
 
 
         elif choice == "2":
 
-        elif choice == "3":
+         elif choice == "3":
 
         elif choice == "4":
 
