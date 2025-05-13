@@ -14,17 +14,17 @@ def menu ():
             add_user(input("Enter username: "), input("Enter password: "),input("Enter email: "))
 
 
-        elif choice == "2":
+     #   elif choice == "2":
 
-        elif choice == "3":
+       # elif choice == "3":
 
-        elif choice == "4":
+       # elif choice == "4":
 
-        elif choice == "5":
+       # elif choice == "5":
 
-        elif choice == "6":
-            print("Goodbye")
-            return
+      #  elif choice == "6":
+      #      print("Goodbye")
+       #     return
         else:
             print("Invalid choice, try again.")
 menu()
