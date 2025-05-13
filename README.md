@@ -1,1 +1,1 @@
-I'm going to lose my mind
+Welcome to the Final Project For Scripting. Here you will find all of our files
