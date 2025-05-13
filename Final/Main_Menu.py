@@ -11,19 +11,7 @@ def menu ():
         choice = input("What would you like to do?: ")
 
         if choice == "1":
-            add_user()
-            while True:
-                input("Enter a username: ")
-                    if:
-
-                    elif:
-                        input("Enter a password: ")
-                    elif:
-
-                    else:
-                        print("Account added!")
-                    break
-                return
+            add_user(input("Enter username: "), input("Enter password: "),input("Enter email: "))
 
 
         elif choice == "2":
