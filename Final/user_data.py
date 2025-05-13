@@ -16,26 +16,35 @@ CREATE TABLE IF NOT EXISTS UserData (
 )
 
 def add_user(username, email, password):
+    try:
+        cursor.execute("INSERT INTO UserData (username, email, password) VALUES (?, ?, ?)", (username, email, password))
+        conn.commit()
+        return f"User '{username}' has been added"
+    except sqlite3.IntegrityError:
+        return f"User '{username}' already exists"
 
 def authenticate_user(username, password_attempt):
-    if username not in user_database:
-        return False, "User not found."
+   cursor.execute("SELECT password FROM UserData WHERE username = ?", (username,))
+   result = cursor.fetchone()
 
-    user = user_database[username]
-    user["password_attempts"].append((password_attempt, datetime.now().isoformat()))
+   if result is None:
+       return False, "User Not Found."
 
-    if user["password"] == password_attempt:
-        user["login_history"].append(datetime.now().isoformat())
-        return True, "Login successful."
-    else:
-        return False, "Incorrect password."
 
 def get_user_info(username):
-    return user_database.get(username, None)
+    cursor.execute("SELECT * FROM UserData WHERE username = ?", (username,))
+    user = cursor.fetchone()
+    if not user:
+        return None
+
+    return {
+        "username": user[0],
+        "email": user[1]
+    }
 
 def get_all_users():
-    return list(user_database.keys())
+    cursor.execute("SELECT username FROM UserData")
 
 def reset_database():
-    global user_database
-    user_database = {}
+    cursor.execute('DELETE FROM UserData')
+    conn.commit()
