@@ -1,3 +1,4 @@
+from user_data import add_user
 def menu ():
     while True:
         print("\nChoose one of the following: "
@@ -10,6 +11,7 @@ def menu ():
         choice = input("What would you like to do?: ")
 
         if choice == "1":
+            add_user()
 
         elif choice == "2":
 
