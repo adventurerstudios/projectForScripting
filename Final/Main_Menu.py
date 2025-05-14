@@ -16,7 +16,7 @@ def menu ():
         choice = input("What would you like to do?: ")
 
         if choice == "1":
-            print(add_user(input("Enter username: "), input("Enter password: "),input("Enter email: ")))
+            print(add_user(input("Enter username: "),input("Enter email: "),  input("Enter password: ")))
         elif choice == "2":
             print(get_user_info(input("Enter username: ")))
         elif choice == "3":

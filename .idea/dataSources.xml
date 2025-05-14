@@ -31,11 +31,11 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="UserData [2]" uuid="acfb1c9b-0616-4363-a417-e1706a5b8f70">
+    <data-source source="LOCAL" name="UserData [2]" uuid="ac9248e8-33df-4085-a79a-1b81ea6837eb">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:D:\projectForScripting\Final\UserData.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\tsqui\PycharmProjects\projectForScripting2\Final\UserData.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
