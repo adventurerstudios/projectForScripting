@@ -22,7 +22,7 @@ def add_user(username, email, password):
     try:
         hashed_password = hash_password(password)
         cursor.execute(
-            "INSERT INTO UserData (username, email, password) VALUES (?, ?, ?)",
+            "INSERT INTO UserData (username, password, email) VALUES (?, ?, ?)",
             (username, email, hashed_password))
         conn.commit()
         return f"User '{username}' has been added"
