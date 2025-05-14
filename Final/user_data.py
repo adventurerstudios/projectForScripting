@@ -24,7 +24,7 @@ def is_valid_password(password):
     pattern = r'^(?=.*[A-Z])(?=.*\d).{8,}$'
     return re.match(pattern, password) is not None
 
-def add_user(username, password, email):
+def add_user(username, email, password):
     while True:
         if not is_valid_password(password):
             print("Password must be at least 8 characters long, contain a number, and an uppercase letter.")
@@ -34,7 +34,7 @@ def add_user(username, password, email):
         try:
             hashed_password = hash_password(password)
             cursor.execute(
-                "INSERT INTO UserData (username, email, password) VALUES (?, ?, ?)",
+                "INSERT INTO UserData (username, password, email) VALUES (?, ?, ?)",
                 (username, hashed_password, email)
             )
             conn.commit()
