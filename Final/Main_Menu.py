@@ -14,8 +14,6 @@ def menu ():
 
         if choice == "1":
             print(add_user(input("Enter username: "), input("Enter password: "),input("Enter email: ")))
-
-
         elif choice == "2":
             print(get_user_info(input("Enter username: ")))
         elif choice == "3":

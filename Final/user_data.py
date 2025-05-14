@@ -1,5 +1,6 @@
 from datetime import datetime
 import sqlite3
+import hashlib
 
 conn = sqlite3.connect('UserData.db')
 cursor = conn.cursor()
@@ -14,10 +15,15 @@ CREATE TABLE IF NOT EXISTS UserData (
 '''
 
 )
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def add_user(username, email, password):
     try:
-        cursor.execute("INSERT INTO UserData (username, email, password) VALUES (?, ?, ?)", (username, email, password))
+        hashed_password = hash_password(password)
+        cursor.execute(
+            "INSERT INTO UserData (username, email, password) VALUES (?, ?, ?)",
+            (username, email, hashed_password))
         conn.commit()
         return f"User '{username}' has been added"
     except sqlite3.IntegrityError:
@@ -30,6 +36,14 @@ def authenticate_user(username, password_attempt):
    if result is None:
        return False, "User Not Found."
 
+   stored_hash = result[0]
+   hashed_attempt = hash_password(password_attempt)
+
+   if stored_hash == hashed_attempt:
+       return True, "Login Successful."
+
+   return False, "Incorrect Password."
+
 
 def get_user_info(username):
     authenticate_user(username, input("Enter password: "))
@@ -40,7 +54,7 @@ def get_user_info(username):
 
     return {
         "username": user[0],
-        "email": user[1]
+        "email": user[2]
 }
 
 def get_all_users():
