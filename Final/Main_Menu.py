@@ -1,5 +1,6 @@
 from user_data import *
 from StealthScrape import scraper
+from Export import *
 def menu ():
     while True:
         print("\nChoose one of the following: "
@@ -22,6 +23,7 @@ def menu ():
             print("Work in Progress")
         elif choice == "5":
             get_all_users()
+            export()
         elif choice == "6":
             scraper(input("Enter website: "))
         elif choice == "7":
