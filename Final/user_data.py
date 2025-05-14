@@ -107,3 +107,5 @@ def check_for_leaks(scraped_data):
             leaks.append((username, email))
 
     return leaks
+
+#delete
