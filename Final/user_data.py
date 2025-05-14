@@ -46,20 +46,34 @@ def add_user(username, email, password):
             password = input("Enter a new password: ")
 
 
-def authenticate_user(username, password_attempt):
-   cursor.execute("SELECT password FROM UserData WHERE username = ?", (username,))
-   result = cursor.fetchone()
+def authenticate_user(username, password):
+    max_attempts = 3
+    attempts = 0
+    while attempts < max_attempts:
+        username = username
+        password_attempt = password
 
-   if result is None:
-       return False, "User Not Found."
+        cursor.execute("SELECT password FROM UserData WHERE username = ?", (username,))
+        result = cursor.fetchone()
 
-   stored_hash = result[0]
-   hashed_attempt = hash_password(password_attempt)
+        if result is None:
+            print("User Not Found.")
+            attempts += 1
+            continue
 
-   if stored_hash == hashed_attempt:
-       return True, "Login Successful."
+        stored_hash = result[0]
+        hashed_attempt = hash_password(password_attempt)
 
-   return False, "Incorrect Password."
+        if stored_hash == hashed_attempt:
+            print("Login Successful.")
+            return True, "Login Successful."
+
+        print("Incorrect Password.")
+        attempts += 1
+
+    return False, "Too many failed login attempts."
+
+
 
 
 def get_user_info(username):
