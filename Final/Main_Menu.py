@@ -1,3 +1,5 @@
+import requests
+
 from user_data import *
 from StealthScrape import scraper
 from Export import *
@@ -20,7 +22,18 @@ def menu ():
         elif choice == "3":
             print(get_all_users())
         elif choice == "4":
-            print("Work in Progress")
+            website = input("Enter URL to check for leaks: ")
+            response = requests.get(website)
+            if response.status_code == 200:
+                leaks = check_for_leaks(response.text)
+                if leaks:
+                    print("⚠️ Potential leaks found:")
+                    for user, email in leaks:
+                        print(f"Username: {user}, Email: {email}")
+                else:
+                    print("✅ No leaks found.")
+            else:
+                print("Failed to retrieve site.")
         elif choice == "5":
             get_all_users()
             export()
@@ -33,3 +46,5 @@ def menu ():
             print("Invalid choice, try again.")
             return
 menu()
+
+#delete

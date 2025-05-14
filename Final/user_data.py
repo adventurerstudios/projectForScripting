@@ -64,3 +64,19 @@ def get_all_users():
 def reset_database():
     cursor.execute('DELETE FROM UserData')
     conn.commit()
+
+#---------------------------------------------------------------------------------------------------------------------
+
+import re
+
+def check_for_leaks(scraped_data):
+    cursor.execute("SELECT username, email FROM UserData")
+    users = cursor.fetchall()
+    leaks = []
+
+    for user in users:
+        username, email = user
+        if re.search(re.escape(username), scraped_data) or re.search(re.escape(email), scraped_data):
+            leaks.append((username, email))
+
+    return leaks
