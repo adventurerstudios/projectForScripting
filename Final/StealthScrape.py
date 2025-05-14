@@ -15,6 +15,6 @@ def scraper(website):
     # check response statement
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
-        print(soup.title)
+        print(soup.text)
     else:
         print(f"Failed to retrieve {website}. Status code: {response.status_code}")
