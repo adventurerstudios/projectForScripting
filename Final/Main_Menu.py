@@ -23,17 +23,22 @@ def menu ():
             print(get_all_users())
         elif choice == "4":
             website = input("Enter URL to check for leaks: ")
-            response = requests.get(website)
-            if response.status_code == 200:
-                leaks = check_for_leaks(response.text)
-                if leaks:
-                    print("Potential leaks found: ")
-                    for user, email in leaks:
-                        print(f"Username: {user}, Email: {email}")
+            if not website.startswith("http://") and not website.startswith("https://"):
+                website = "https://" + website
+            try:
+                response = requests.get(website)
+                if response.status_code == 200:
+                    leaks = check_for_leaks(response.text)
+                    if leaks:
+                        print("Potential leaks found:")
+                        for user, email in leaks:
+                            print(f"Username: {user}, Email: {email}")
+                    else:
+                        print("No leaks found.")
                 else:
-                    print("No leaks found.")
-            else:
-                print("Failed to retrieve site. Site may not exist or is not accessible.")
+                    print(f"Failed to retrieve site. Site may not exist or is not accessible")
+            except Exception as e:
+                print(f"Error while checking leaks: {e}")
         elif choice == "5":
             get_all_users()
             export()
