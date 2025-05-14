@@ -57,13 +57,25 @@ def get_user_info(username):
         "email": user[2]
 }
 
-def get_all_users():
-    cursor.execute("SELECT USERNAME FROM UserData")
+def get_all_users(full_info=False):
+    if full_info:
+        cursor.execute("SELECT username, email, password FROM UserData")
+    else:
+        cursor.execute("SELECT username FROM UserData")
     result = cursor.fetchall()
     return result
 def reset_database():
     cursor.execute('DELETE FROM UserData')
     conn.commit()
+def add_user_direct(username, email, hashed_password):
+    try:
+        cursor.execute(
+            "INSERT INTO UserData (username, email, password) VALUES (?, ?, ?)",
+            (username, email, hashed_password))
+        conn.commit()
+        return f"User '{username}' has been imported successfully"
+    except sqlite3.IntegrityError:
+        return f"User '{username}' already exists"
 
 import re
 

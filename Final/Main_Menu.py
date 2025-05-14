@@ -40,8 +40,14 @@ def menu ():
             except Exception as e:
                 print(f"Error while checking leaks: {e}")
         elif choice == "5":
-            get_all_users()
-            export()
+            action = input("Would you like to 'export' or 'import' data?: ").strip().lower()
+            if action == "export":
+                export()
+            elif action == "import":
+                filename = input("Enter the filename to import from: ").strip()
+                import_data(filename)
+            else:
+                print("Invalid choice. Please enter 'export' or 'import'.")
         elif choice == "6":
             scraper(input("Enter website URL: "))
         elif choice == "7":
