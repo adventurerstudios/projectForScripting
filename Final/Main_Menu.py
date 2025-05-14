@@ -27,13 +27,13 @@ def menu ():
             if response.status_code == 200:
                 leaks = check_for_leaks(response.text)
                 if leaks:
-                    print("⚠️ Potential leaks found:")
+                    print("Potential leaks found:")
                     for user, email in leaks:
                         print(f"Username: {user}, Email: {email}")
                 else:
-                    print("✅ No leaks found.")
+                    print("No leaks found.")
             else:
-                print("Failed to retrieve site.")
+                print("Failed to retrieve site. Site may not exist or is not accessible.")
         elif choice == "5":
             get_all_users()
             export()

@@ -65,8 +65,6 @@ def reset_database():
     cursor.execute('DELETE FROM UserData')
     conn.commit()
 
-#---------------------------------------------------------------------------------------------------------------------
-
 import re
 
 def check_for_leaks(scraped_data):
