@@ -27,7 +27,7 @@ def menu ():
             if response.status_code == 200:
                 leaks = check_for_leaks(response.text)
                 if leaks:
-                    print("Potential leaks found:")
+                    print("Potential leaks found: ")
                     for user, email in leaks:
                         print(f"Username: {user}, Email: {email}")
                 else:
@@ -38,7 +38,7 @@ def menu ():
             get_all_users()
             export()
         elif choice == "6":
-            scraper(input("Enter website: "))
+            scraper(input("Enter website URL: "))
         elif choice == "7":
             print("Goodbye")
             return
