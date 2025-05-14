@@ -1,6 +1,7 @@
 from datetime import datetime
 import sqlite3
 import hashlib
+import re
 
 conn = sqlite3.connect('UserData.db')
 cursor = conn.cursor()
@@ -18,21 +19,31 @@ CREATE TABLE IF NOT EXISTS UserData (
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-def add_user(username, email, password):
-        while True:
-            try:
-                hashed_password = hash_password(password)
-                cursor.execute(
-                    "INSERT INTO UserData (username, password, email) VALUES (?, ?, ?)",
-                    (username, hashed_password, email)
-                )
-                conn.commit()
-                return f"User '{username}' has been added"
-            except sqlite3.IntegrityError:
-                print(f"User '{username}' already exists. Please try again.")
-                username = input("Enter a new username: ")
-                email = input("Enter a new email: ")
-                password = input("Enter a new password: ")
+def is_valid_password(password):
+    # At least 8 characters, one uppercase letter, and one number
+    pattern = r'^(?=.*[A-Z])(?=.*\d).{8,}$'
+    return re.match(pattern, password) is not None
+
+def add_user(username, password, email):
+    while True:
+        if not is_valid_password(password):
+            print("Password must be at least 8 characters long, contain a number, and an uppercase letter.")
+            password = input("Enter a new valid password: ")
+            continue
+
+        try:
+            hashed_password = hash_password(password)
+            cursor.execute(
+                "INSERT INTO UserData (username, email, password) VALUES (?, ?, ?)",
+                (username, hashed_password, email)
+            )
+            conn.commit()
+            return f"User '{username}' has been added"
+        except sqlite3.IntegrityError:
+            print(f"User '{username}' already exists. Please try again.")
+            username = input("Enter a new username: ")
+            email = input("Enter a new email: ")
+            password = input("Enter a new password: ")
 
 
 def authenticate_user(username, password_attempt):
