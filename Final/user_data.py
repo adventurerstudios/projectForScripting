@@ -32,6 +32,7 @@ def authenticate_user(username, password_attempt):
 
 
 def get_user_info(username):
+    authenticate_user(username, input("Enter password: "))
     cursor.execute("SELECT * FROM UserData WHERE username = ?", (username,))
     user = cursor.fetchone()
     if not user:
@@ -40,11 +41,12 @@ def get_user_info(username):
     return {
         "username": user[0],
         "email": user[1]
-    }
+}
 
 def get_all_users():
-    cursor.execute("SELECT username FROM UserData")
-
+    cursor.execute("SELECT USERNAME FROM UserData")
+    result = cursor.fetchall()
+    return result
 def reset_database():
     cursor.execute('DELETE FROM UserData')
     conn.commit()

@@ -17,11 +17,11 @@ def menu ():
 
 
         elif choice == "2":
-
-         elif choice == "3":
-
+            print(get_user_info(input("Enter username: ")))
+        elif choice == "3":
+            print(get_all_users())
         elif choice == "4":
-
+            print("Work in Progress")
         elif choice == "5":
             get_all_users()
         elif choice == "6":
