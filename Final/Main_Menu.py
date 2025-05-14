@@ -16,11 +16,14 @@ def menu ():
         choice = input("What would you like to do?: ")
 
         if choice == "1":
-            print(add_user(input("Enter username: "), input("Enter password: "),input("Enter email: ")))
+                print(add_user(input("Enter username: "), input("Enter password: "),input("Enter email: ")))
+
         elif choice == "2":
             print(get_user_info(input("Enter username: ")))
+
         elif choice == "3":
             print(get_all_users())
+
         elif choice == "4":
             website = input("Enter URL to check for leaks: ")
             response = requests.get(website)
@@ -34,15 +37,20 @@ def menu ():
                     print("✅ No leaks found.")
             else:
                 print("Failed to retrieve site.")
+
         elif choice == "5":
             get_all_users()
             export()
+
         elif choice == "6":
             scraper(input("Enter website: "))
+
         elif choice == "7":
+
             print("Goodbye")
             return
         else:
+
             print("Invalid choice, try again.")
             return
 menu()

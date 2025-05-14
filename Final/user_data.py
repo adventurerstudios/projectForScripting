@@ -8,9 +8,9 @@ cursor = conn.cursor()
 #create table
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS UserData (
-    USERNAME TEXT PRIMARY KEY,
+    USERNAME TEXT PRIMARY KEY UNIQUE,
     PASSWORD TEXT NOT NULL,
-    EMAIL TEXT NOT NULL
+    EMAIL TEXT NOT NULL UNIQUE
 )
 '''
 
@@ -19,15 +19,21 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def add_user(username, email, password):
-    try:
-        hashed_password = hash_password(password)
-        cursor.execute(
-            "INSERT INTO UserData (username, password, email) VALUES (?, ?, ?)",
-            (username, email, hashed_password))
-        conn.commit()
-        return f"User '{username}' has been added"
-    except sqlite3.IntegrityError:
-        return f"User '{username}' already exists"
+        while True:
+            try:
+                hashed_password = hash_password(password)
+                cursor.execute(
+                    "INSERT INTO UserData (username, password, email) VALUES (?, ?, ?)",
+                    (username, hashed_password, email)
+                )
+                conn.commit()
+                return f"User '{username}' has been added"
+            except sqlite3.IntegrityError:
+                print(f"User '{username}' already exists. Please try again.")
+                username = input("Enter a new username: ")
+                email = input("Enter a new email: ")
+                password = input("Enter a new password: ")
+
 
 def authenticate_user(username, password_attempt):
    cursor.execute("SELECT password FROM UserData WHERE username = ?", (username,))
