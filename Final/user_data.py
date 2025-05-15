@@ -77,16 +77,25 @@ def authenticate_user(username, password):
 
 
 def get_user_info(username):
-    authenticate_user(username, input("Enter password: "))
+    # Loop until authenticated
+    while True:
+        success, message = authenticate_user(username, input("Enter password: "))
+        if success:
+            break
+        print(message)
+
+    # After successful login
     cursor.execute("SELECT * FROM UserData WHERE username = ?", (username,))
     user = cursor.fetchone()
+
     if not user:
         return None
 
     return {
         "username": user[0],
         "email": user[2]
-}
+    }
+
 
 def get_all_users(full_info=False):
     if full_info:
