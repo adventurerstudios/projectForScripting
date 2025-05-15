@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-def scraper(website):
+def scraper(website): #scraper function
     HEADERS = {
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",

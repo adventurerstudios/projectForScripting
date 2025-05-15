@@ -16,22 +16,22 @@ CREATE TABLE IF NOT EXISTS UserData (
 '''
 
 )
-def hash_password(password):
+def hash_password(password): #the function for encrypting passwords
     return hashlib.sha256(password.encode()).hexdigest()
 
-def is_valid_password(password):
+def is_valid_password(password): #function for validating a password
     # At least 8 characters, one uppercase letter, and one number
     pattern = r'^(?=.*[A-Z])(?=.*\d).{8,}$'
     return re.match(pattern, password) is not None
 
-def add_user(username, email, password):
+def add_user(username, email, password): #function for adding a user
     while True:
-        if not is_valid_password(password):
+        if not is_valid_password(password): #checks for valid password
             print("Password must be at least 8 characters long, contain a number, and an uppercase letter.")
             password = input("Enter a new valid password: ")
             continue
 
-        try:
+        try: #adds the user to the db
             hashed_password = hash_password(password)
             cursor.execute(
                 "INSERT INTO UserData (username, password, email) VALUES (?, ?, ?)",
@@ -39,24 +39,24 @@ def add_user(username, email, password):
             )
             conn.commit()
             return f"User '{username}' has been added"
-        except sqlite3.IntegrityError:
+        except sqlite3.IntegrityError: #checks if the user is already in the db
             print(f"User '{username}' already exists. Please try again.")
             username = input("Enter a new username: ")
             email = input("Enter a new email: ")
             password = input("Enter a new password: ")
 
 
-def authenticate_user(username, password):
+def authenticate_user(username, password): #function for user authetification
     max_attempts = 3
     attempts = 0
-    while attempts < max_attempts:
+    while attempts < max_attempts: # checks for the user name and password
         username = username
         password_attempt = password
 
         cursor.execute("SELECT password FROM UserData WHERE username = ?", (username,))
         result = cursor.fetchone()
 
-        if result is None:
+        if result is None: #if these don't match it returns an error
             print("User Not Found.")
             attempts += 1
             continue
@@ -64,7 +64,7 @@ def authenticate_user(username, password):
         stored_hash = result[0]
         hashed_attempt = hash_password(password_attempt)
 
-        if stored_hash == hashed_attempt:
+        if stored_hash == hashed_attempt: #if the login is correct it logsin
             print("Login Successful.")
             return True, "Login Successful."
 
@@ -76,7 +76,7 @@ def authenticate_user(username, password):
 
 
 
-def get_user_info(username):
+def get_user_info(username): #function for getting a users info
     # Loop until authenticated
     while True:
         success, message = authenticate_user(username, input("Enter password: "))
@@ -97,7 +97,7 @@ def get_user_info(username):
     }
 
 
-def get_all_users(full_info=False):
+def get_all_users(full_info=False): #shows all user names in the database
     if full_info:
         cursor.execute("SELECT username, email, password FROM UserData")
     else:
@@ -119,7 +119,7 @@ def add_user_direct(username, email, hashed_password):
 
 import re
 
-def check_for_leaks(scraped_data):
+def check_for_leaks(scraped_data): #function for leak checking
     cursor.execute("SELECT username, email FROM UserData")
     users = cursor.fetchall()
     leaks = []

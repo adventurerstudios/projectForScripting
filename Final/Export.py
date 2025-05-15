@@ -1,6 +1,6 @@
 from Final.user_data import get_all_users
 
-def export ():
+def export (): #function for exporting a user
     while True:
         choose = input("Would you like to export all users to a new file? (y/n): ")
         if choose.lower() == "y":
@@ -18,7 +18,7 @@ def export ():
 
 from Final.user_data import add_user_direct
 
-def import_data(filename):
+def import_data(filename): #function for importing data
     try:
         with open(filename, 'r', encoding='utf-8') as file:
             users = eval(file.read())
